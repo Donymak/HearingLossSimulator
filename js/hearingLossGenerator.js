@@ -708,11 +708,8 @@ SoundEngine.prototype.loadCustomAudioForeground = function (audioFile) {
         });
     };
     reader.readAsArrayBuffer(audioFile);
+    this.setForegroundId(2)
 
-    // Show the "Custom" option and set it as selected
-    var customOption = document.getElementById('customOption');
-    customOption.style.display = 'block'; // Show the option
-    document.getElementById('selectForeground').value = '2';
 };
 
 //************ Sound Engine Class - End ***************
@@ -848,9 +845,9 @@ function handleButtonPlayAVG() {
     mySoundEngine.setPlayAVG(true);
 }
 
-function handleCustomAudioUpload(event) {
-    var files = event.target.files;
+function handleCustomAudioFile(files) {
     if (files.length > 0) {
+        // Assuming SoundEngine has a method to handle custom file
         mySoundEngine.loadCustomAudioForeground(files[0]);
     }
 }
@@ -882,11 +879,20 @@ function init() {
     });
 
     var selectForeground = document.getElementById("selectForeground");
-    selectForeground.addEventListener("input", function () {
-        if (mySoundEngine.foregroundPlaying)
-            buttonForegroundRun.click();
-        mySoundEngine.setForegroundId(this.value);
+    selectForeground.addEventListener("change", function () {
+        if (this.value === "2") {
+            document.getElementById("customAudioFile").click(); // Trigger file input
+        } else {
+            // Handle other options as before
+            mySoundEngine.setForegroundId(this.value);
+        }
     });
+
+    var customOption = document.getElementById("customOption");
+    customOption.addEventListener("click", function () {
+        document.getElementById("customAudioFile").click(); // Trigger file input
+    });
+
     // var buttonForegroundPlay = document.getElementById("buttonForegroundPlay");
     // buttonForegroundPlay.addEventListener("click",handleButtonForegroundPlay);
     // var buttonForegroundPause = document.getElementById("buttonForegroundPause");
