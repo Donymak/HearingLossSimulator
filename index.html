@@ -423,10 +423,17 @@
                             <select name="foreground" id="selectForeground" class="select-dropdown">
                                 <option value="0">Female</option>
                                 <option value="1">Male</option>
+                                <option value="2" id="customOption" style="display: none;">Custom</option>
                             </select>
                             <label class="icon-btn-wrapper blue-btn">
                                 <i class="fas fa-play"></i>
                                 <input type="button" id="buttonForegroundRun" value="Play">
+                            </label>
+                            <p></p>
+                            <label class="icon-btn-wrapper blue-btn">
+                                <i class="fas fa-upload"></i>
+                                <input type="file" id="customAudioUpload" accept="audio/*" style="display: none;" onchange="handleCustomAudioUpload(event)">
+                                <input type="button" id="buttonCustomAudioUpload" value="Upload Custom Audio">
                             </label>
                             <p></p>
                             <b><i class='fa fa-bullseye' style='font-size:20px'></i> &nbsp;</b>

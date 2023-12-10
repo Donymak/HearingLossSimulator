@@ -692,6 +692,29 @@ SoundEngine.prototype.setPreset = function (number) {
     showAVGValue(9);
 };
 
+// Method to load custom audio file
+SoundEngine.prototype.loadCustomAudioForeground = function (audioFile) {
+    if (!this.audioCtxCreated) {
+        this.createAudioCtx();
+    }
+
+    var reader = new FileReader();
+    reader.onload = (event) => {
+        this.audioCtx.decodeAudioData(event.target.result, (buffer) => {
+            this.bufferForeground = buffer;
+            this.foregroundLoaded = true;
+        }, (error) => {
+            console.error('Error decoding audio data: ' + error);
+        });
+    };
+    reader.readAsArrayBuffer(audioFile);
+
+    // Show the "Custom" option and set it as selected
+    var customOption = document.getElementById('customOption');
+    customOption.style.display = 'block'; // Show the option
+    document.getElementById('selectForeground').value = '2';
+};
+
 //************ Sound Engine Class - End ***************
 
 
@@ -823,6 +846,13 @@ function handleButtonPlayRightAndLeft() {
 
 function handleButtonPlayAVG() {
     mySoundEngine.setPlayAVG(true);
+}
+
+function handleCustomAudioUpload(event) {
+    var files = event.target.files;
+    if (files.length > 0) {
+        mySoundEngine.loadCustomAudioForeground(files[0]);
+    }
 }
 
 
@@ -970,6 +1000,10 @@ function init() {
     });
     inputEqLeft8000.addEventListener("input", function () {
         if (this.value >= 0 && this.value <= 80) mySoundEngine.setEq("left", 9, this.value);
+    });
+
+    document.getElementById('buttonCustomAudioUpload').addEventListener('click', function() {
+        document.getElementById('customAudioUpload').click();
     });
 
     var buttonPlayRightAndLeft = document.getElementById("buttonPlayRightAndLeft");
