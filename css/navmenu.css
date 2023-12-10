@@ -1,0 +1,121 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.dropbtn {
+    background: radial-gradient(#FAD261, #D9D9D8);
+    padding: 15px;
+    font-size: 16px;
+    font-color: black;
+    border: none;
+    border-radius: 13px;
+    cursor: pointer;
+    animation: pulse-blue 2s infinite;
+}
+
+@keyframes pulse-blue {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(52, 172, 224, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(52, 172, 224, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(52, 172, 224, 0);
+    }
+}
+
+.dropbtn:hover {
+    background: white;
+}
+
+.dropbtn:hover,
+.dropbtn:focus {
+    background-color: #7bbeea;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    float: right;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    border-radius: 13px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    right: 0;
+    font-family: arial;
+}
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+.show {
+    display: block;
+}
+
+/* Add a black background color to the top navigation */
+
+.bodynav {
+    background-color: #803934;
+    border-radius: 13px;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+
+.bodynav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 13px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    border-bottom: 0px solid transparent;
+}
+
+.bodynav a:hover {
+    background-color: #FDF7E0;
+    color: black;
+    border-radius: 13px;
+}
+
+.bodynav a.active {
+    background-color: #04AA6D;
+    color: white;
+    border-radius: 13px;
+}
+
+.header .dropdown {
+    position: fixed;
+    float: right;
+    right: 20px;
+}
+
+.header .dropdown {
+    z-index: 1;
+}
+
+@media (max-width:768px) {
+    div#myDropdown {
+        max-height: 400px;
+    }
+}
