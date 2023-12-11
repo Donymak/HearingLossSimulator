@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loading...</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=en/index.html"> <!-- Default redirection if JavaScript is disabled -->
+    <script>
+        // Function to detect user's language and redirect accordingly
+        function redirectBasedOnLanguage() {
+            var language = navigator.language || navigator.userLanguage; // Get browser language
+            if(language.indexOf('uk') !== -1) {
+                // If Ukrainian, redirect to the Ukrainian version
+                window.location.href = 'uk/index.html';
+            } else {
+                // Default to English version
+                window.location.href = 'en/index.html';
+            }
+        }
+    </script>
+</head>
+<body onload="redirectBasedOnLanguage();">
+<noscript>
+    <meta http-equiv="refresh" content="0; url=en/index.html"> <!-- Fallback redirection if JavaScript is disabled -->
+</noscript>
+Redirecting...
+</body>
+</html>
