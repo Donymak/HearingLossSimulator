@@ -296,6 +296,34 @@ Single styles
     max-width: 100%;
 }
 
+.info-circle {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #333;
+    text-align: center;
+    line-height: 30px;
+    font-style: normal;
+    border: 5px solid #ccc;
+    position: relative; /* Needed for tooltip positioning */
+    cursor: pointer; /* Indicates it's clickable */
+}
+
+.tooltip {
+    width: 250px;
+    position: absolute;
+    bottom: 35px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+    z-index: 10; /* Needed to keep the tooltip above other elements */
+}
+
 .btn,
 .btnR,
 .btnL {

@@ -433,18 +433,19 @@
                                 <option value="4">Forest</option>
                                 <option value="5">Restaurant</option>
                             </select>
-                            <input type="file" id="customAudioFile" accept="audio/*" style="display: none;" onchange="handleCustomAudioFile(this.files)">
+                            <input type="file" id="customAudioFile" accept="audio/*" style="display: none;"
+                                   onchange="handleCustomAudioFile(this.files)">
                             <label class="icon-btn-wrapper blue-btn">
                                 <i class="fas fa-play"></i>
                                 <input type="button" id="buttonForegroundRun" value="Play">
                             </label>
                             <p></p>
-<!--                            <label class="icon-btn-wrapper blue-btn">-->
-<!--                                <i class="fas fa-upload"></i>-->
-<!--                                <input type="file" id="customAudioUpload" accept="audio/*" style="display: none;" onchange="handleCustomAudioUpload(event)">-->
-<!--                                <input type="button" id="buttonCustomAudioUpload" value="Upload Custom Audio">-->
-<!--                            </label>-->
-<!--                            <p></p>-->
+                            <!--                            <label class="icon-btn-wrapper blue-btn">-->
+                            <!--                                <i class="fas fa-upload"></i>-->
+                            <!--                                <input type="file" id="customAudioUpload" accept="audio/*" style="display: none;" onchange="handleCustomAudioUpload(event)">-->
+                            <!--                                <input type="button" id="buttonCustomAudioUpload" value="Upload Custom Audio">-->
+                            <!--                            </label>-->
+                            <!--                            <p></p>-->
                             <b><i class='fa fa-bullseye' style='font-size:20px'></i> &nbsp;</b>
                             <select name="background" id="selectBackground" class="select-dropdown">
                                 <option value="0">AirTrackDrill</option>
@@ -652,6 +653,20 @@
                     </tr>
                 </table>
             </div>
+
+            <div>
+                <p></p>
+                <label class="icon-btn-wrapper blue-btn">
+                    <input type="button" id="buttonNormalise" value="Normalise current inputs">
+                </label>
+                <div class="info-circle" onclick="toggleTooltip(event)">I
+                    <span class="tooltip" style="display:none;">Browser allows the sound to be reduced up to 55db in each frequency,
+                        this button should be pressed if you entered the hearing test results
+                        that have bigger hearing loss than 55db. At 55db loss in simulator
+                        there is no sound played due to hardware and software limitations</span>
+                </div>
+            </div>
+
         </form>
         <p></p>
 
@@ -786,6 +801,21 @@
             document.getElementById('overA' + frequncy).style.left = left;
             document.getElementById('overA' + frequncy).style.color = color;
         }
+    }
+
+    // Function to toggle tooltip
+    function toggleTooltip(event) {
+        // Close all tooltips
+        document.querySelectorAll('.tooltip').forEach(function(tooltip) {
+            tooltip.style.display = 'none';
+        });
+
+        // Open the clicked tooltip
+        var tooltip = event.currentTarget.querySelector('.tooltip');
+        tooltip.style.display = 'block';
+
+        // Stop the event from propagating to the document
+        event.stopPropagation();
     }
 </script>
 </body>

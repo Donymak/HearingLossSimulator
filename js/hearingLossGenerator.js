@@ -65,7 +65,7 @@ function SoundEngine() {
 
     this.playAVG = false;
 
-    this.playTest = false;
+    this.playNormalised = false;
 
     // presets
     this.presetNormal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -578,7 +578,7 @@ SoundEngine.prototype.updateFilter = function (leftRight, number) {
 
 // set eq values by left/right, number
 SoundEngine.prototype.setEq = function (leftRight, number, value) {
-    if (this.playTest) {
+    if (this.playNormalised) {
         value = transformLogScale(value);
     }
     if (leftRight === "left") {
@@ -626,39 +626,43 @@ SoundEngine.prototype.setPreset = function (number) {
     var preset, secondPreset;
     switch (number) {
         case 0:
-            this.playTest = false;
+            this.playNormalised = false;
             preset = this.presetNormal;
             secondPreset = null;
             break;
         case 1:
-            this.playTest = false;
+            this.playNormalised = false;
             preset = this.presetMildHearingLoss;
             secondPreset = null;
             break;
         case 2:
-            this.playTest = false;
+            this.playNormalised = false;
             preset = this.presetModerate;
             secondPreset = null;
             break;
         case 3:
-            this.playTest = false;
+            this.playNormalised = false;
             preset = this.presetSevere;
             secondPreset = null;
             break;
         case 4:
-            this.playTest = false;
+            this.playNormalised = false;
             preset = this.presetVitalyRiabokonL;
             secondPreset = this.presetVitalyRiabokonR;
             break;
         case 5:
-            this.playTest = true;
+            this.playNormalised = true;
             preset = this.presetTestL;
             secondPreset = this.presetTestR;
             break;
 
         default:
     }
+    this.setPresetValues(preset, secondPreset, 0);
+};
 
+// Method to set preset eq values
+SoundEngine.prototype.setPresetValues = function (preset, secondPreset) {
     this.setEq("left", 0, preset[0]);
     this.setEq("left", 1, preset[1]);
     this.setEq("left", 2, preset[2]);
@@ -722,6 +726,17 @@ SoundEngine.prototype.setPreset = function (number) {
     showAVGValue(7);
     showAVGValue(8);
     showAVGValue(9);
+}
+
+// Method to normalise current eq values
+SoundEngine.prototype.normaliseCurrentPreset = function () {
+    if (this.eqL.every((value) => value <= 55) || this.eqR.every((value) => value <= 55)) {
+        alert("Current preset is already in normalised range");
+    }
+
+    this.playNormalised = true;
+    this.setPresetValues(this.eqL ,this.eqR);
+    plotAllOnAudiogram();
 };
 
 // Method to load custom audio file
@@ -893,6 +908,10 @@ function handleButtonPlayAVG() {
     mySoundEngine.setPlayAVG(true);
 }
 
+function handleButtonNormalise() {
+    mySoundEngine.normaliseCurrentPreset(true);
+}
+
 function handleCustomAudioFile(files) {
     if (files.length > 0) {
         // Assuming SoundEngine has a method to handle custom file
@@ -994,6 +1013,18 @@ function init() {
     buttonPresetVitalyRiabokon.addEventListener("click", handleButtonPresetVitalyRiabokon);
     var buttonPresetTest = document.getElementById("buttonPresetTest");
     buttonPresetTest.addEventListener("click", handleButtonPresetTest);
+    
+    var buttonNormalise = document.getElementById("buttonNormalise");
+    buttonNormalise.addEventListener("click", handleButtonNormalise);
+
+    // Event listener to close all tooltips when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!event.target.matches('.info-circle, .info-circle *')) {
+            document.querySelectorAll('.tooltip').forEach(function(tooltip) {
+                tooltip.style.display = 'none';
+            });
+        }
+    });
 
     inputEqRight125.addEventListener("input", function () {
         if (this.value >= 0 && this.value <= 80) mySoundEngine.setEq("right", 0, this.value);
