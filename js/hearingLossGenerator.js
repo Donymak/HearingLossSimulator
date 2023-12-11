@@ -65,6 +65,8 @@ function SoundEngine() {
 
     this.playAVG = false;
 
+    this.playTest = false;
+
     // presets
     this.presetNormal = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     this.presetMildHearingLoss = [0, 0, 0, 0, 5, 10, 10, 20, 10, 0];
@@ -72,6 +74,9 @@ function SoundEngine() {
     this.presetSevere = [10, 10, 20, 20, 30, 40, 60, 70, 80, 80];
     this.presetVitalyRiabokonL = [30, 40, 45, 50, 60, 75, 75, 65, 65, 65];
     this.presetVitalyRiabokonR = [30, 30, 37, 35, 50, 50, 50, 45, 60, 45];
+
+    this.presetTestL = [30, 40, 45, 50, 60, 75, 75, 65, 65, 65];
+    this.presetTestR = [30, 30, 37, 35, 50, 50, 50, 45, 60, 45];
 
 }
 
@@ -205,7 +210,8 @@ SoundEngine.prototype.loadSoundForeground = function () {
             mySoundEngine.audioCtx.decodeAudioData(request0.response, function (buffer0) {
                 mySoundEngine.bufferForeground = buffer0;
                 mySoundEngine.foregroundLoaded = true;
-                mySoundEngine.sourceForeground = mySoundEngine.audioCtx.createBufferSource(), mySoundEngine.gainNodeForeground = mySoundEngine.audioCtx.createGain();
+                mySoundEngine.sourceForeground = mySoundEngine.audioCtx.createBufferSource();
+                mySoundEngine.gainNodeForeground = mySoundEngine.audioCtx.createGain();
                 mySoundEngine.sourceForeground.buffer = mySoundEngine.bufferForeground;
                 mySoundEngine.sourceForeground.loop = true;
                 mySoundEngine.gainNodeForeground.gain.value = mySoundEngine.gainForeground;
@@ -563,6 +569,9 @@ SoundEngine.prototype.updateFilter = function (leftRight, number) {
 
 // set eq values by left/right, number
 SoundEngine.prototype.setEq = function (leftRight, number, value) {
+    if (this.playTest) {
+        value = transformLogScale(value);
+    }
     if (leftRight === "left") {
         this.eqL[number] = value;
         this.avg[number] = (parseFloat(this.eqL[number]) + parseFloat(this.eqR[number])) / 2;
@@ -608,20 +617,34 @@ SoundEngine.prototype.setPreset = function (number) {
     var preset, secondPreset;
     switch (number) {
         case 0:
+            this.playTest = false;
             preset = this.presetNormal;
+            secondPreset = null;
             break;
         case 1:
+            this.playTest = false;
             preset = this.presetMildHearingLoss;
+            secondPreset = null;
             break;
         case 2:
+            this.playTest = false;
             preset = this.presetModerate;
+            secondPreset = null;
             break;
         case 3:
+            this.playTest = false;
             preset = this.presetSevere;
+            secondPreset = null;
             break;
         case 4:
+            this.playTest = false;
             preset = this.presetVitalyRiabokonL;
             secondPreset = this.presetVitalyRiabokonR;
+            break;
+        case 5:
+            this.playTest = true;
+            preset = this.presetTestL;
+            secondPreset = this.presetTestR;
             break;
 
         default:
@@ -756,6 +779,17 @@ var mySoundEngine = new SoundEngine();
 
 // help functions
 
+// Bypass limitations of Web Audio API of max decrease of 80dB
+function transformLogScale(x, oldRangeMax, newRangeMax) {
+    // Check if x is positive, as log is not defined for non-positive values
+    if (x <= 0) {
+        return 0;
+    }
+
+    // Calculate the transformed value
+    return Math.round(x * (55 / 90));
+}
+
 // shows AVG value by number
 function showAVGValue(number) {
     switch (number) {
@@ -834,6 +868,11 @@ function handleButtonPresetSevere() {
 
 function handleButtonPresetVitalyRiabokon() {
     mySoundEngine.setPreset(4);
+    plotAllOnAudiogram();
+}
+
+function handleButtonPresetTest() {
+    mySoundEngine.setPreset(5);
     plotAllOnAudiogram();
 }
 
@@ -945,6 +984,8 @@ function init() {
     buttonPresetSevere.addEventListener("click", handleButtonPresetSevere);
     var buttonPresetVitalyRiabokon = document.getElementById("buttonPresetVitalyRiabokon");
     buttonPresetVitalyRiabokon.addEventListener("click", handleButtonPresetVitalyRiabokon);
+    var buttonPresetTest = document.getElementById("buttonPresetTest");
+    buttonPresetTest.addEventListener("click", handleButtonPresetTest);
 
     inputEqRight125.addEventListener("input", function () {
         if (this.value >= 0 && this.value <= 80) mySoundEngine.setEq("right", 0, this.value);
@@ -1006,10 +1047,6 @@ function init() {
     });
     inputEqLeft8000.addEventListener("input", function () {
         if (this.value >= 0 && this.value <= 80) mySoundEngine.setEq("left", 9, this.value);
-    });
-
-    document.getElementById('buttonCustomAudioUpload').addEventListener('click', function() {
-        document.getElementById('customAudioUpload').click();
     });
 
     var buttonPlayRightAndLeft = document.getElementById("buttonPlayRightAndLeft");
