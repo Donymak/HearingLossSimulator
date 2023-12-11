@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Симулятор втрати слуху</title>
+    <meta name="keywords"
+          content="hearing loss simulation, simulator of hearing loss, what is hearing loss like, simulate hearing loss"/>
+    <meta name="description"
+          content="Simulate what hearing loss is like based on hearing test results that you can manually adjust."/>
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="../audiogram/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../audiogram/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../audiogram/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../audiogram/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../audiogram/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../audiogram/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../audiogram/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../audiogram/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../audiogram/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="../audiogram/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../audiogram/favicon-194x194.png" sizes="194x194">
+    <link rel="icon" type="image/png" href="../audiogram/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="../audiogram/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="../audiogram/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="../audiogram/manifest.json">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="../audiogram/mstile-144x144.png">
+    <meta property="og:title" content="Hearing Loss Simulator">
+    <meta property="og:description"
+          content="An interactive tool to simulate the experience of hearing loss, which can be customized based on specific hearing test results.">
+    <meta property="og:url" content="https://donymak.github.io/HearingLossSimulator/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image:width" content="1024px">
+    <meta property="og:image:height" content="1024px">
+    <meta property="og:image" content="../assets/summary.png"/>
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="../css/audiohome.css">
+    <link rel="stylesheet" href="../css/navmenu.css">
+
+    <!-- BEGIN Font Icons CODE -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style type="text/css">
+        .btn {
+            outline: none;
+            border: 0px;
+            padding: 5px 10px !important;
+            font-size: 15px !important;
+        }
+
+        .icon-btn-wrapper input[type=button] {
+            border: 0;
+            background: transparent;
+            margin-bottom: 0px;
+            color: #FFF;
+            cursor: pointer;
+        }
+
+        .icon-btn-wrapper img {
+            width: 25px;
+            height: 15px;
+        }
+
+
+        .icon-btn-wrapper {
+            background: #739973;
+            display: inline-block;
+            color: #FFF !important;
+            padding: 5px 10px;
+            margin-left: .5rem;
+            margin-bottom: .5rem;
+            cursor: pointer;
+            box-shadow: 3px 3px #888888;
+            border-radius: 10px;
+        }
+
+        label.icon-btn-wrapper.blue-btn:hover {
+            background: #014e68 !important;
+        }
+
+        .icon-btn-wrapper:hover {
+            background: #474;
+        }
+
+        .icon-btn-wrapper.selected {
+            background: #474 !important;
+        }
+
+        label.icon-btn-wrapper.red-btn:hover {
+            background: #b52828 !important;
+        }
+
+        .red-btn {
+            background: #F53004 !important;
+        }
+
+        .blue-btn {
+            background: #0453F5 !important;
+        }
+
+        .green-btn {
+            background: #039E18 !important;
+        }
+
+        label.icon-btn-wrapper.green-btn:hover {
+            background: #03701d !important;
+        }
+
+        .yellow-btn {
+            background: #b6aa05 !important;
+        }
+
+        label.icon-btn-wrapper.yellow-btn:hover {
+            background: #a39b05 !important;
+        }
+
+        .orange-btn {
+            background: #cf6604 !important;
+        }
+
+        label.icon-btn-wrapper.orange-btn:hover {
+            background: #9b6603 !important;
+        }
+
+        .center-text {
+            display: inline-block;
+            margin-bottom: 10px !important;
+        }
+
+        #contentbutton br {
+            display: none !important;
+        }
+
+        #contentbutton {
+            margin: 0 auto !important;
+            text-align: center !important;
+        }
+
+        #contentbutton {
+            text-align: left;
+            padding: 0 0 0 10px;
+            overflow: hidden;
+        }
+
+        #contentbutton > h1 {
+            margin: 0
+        }
+
+        #tin a {
+            letter-spacing: 0.05em;
+            font-family: sans-serif;
+            font-size: 140%;
+            display: block;
+            margin: auto;
+            height: 110px;
+            width: 300px;
+            text-decoration: none;
+            padding: 5px 10px 5px 10px;
+            text-align: center;
+            color: #FFFFFF;
+            font-weight: normal;
+            background: linear-gradient(#FC143E, #A50824);
+            border-radius: 150px;
+            -moz-border-radius: 150px;
+            -khtml-border-radius: 150px;
+            -webkit-border-radius: 150px;
+        }
+
+        #tin a:hover {
+            letter-spacing: 0.05em;
+            font-family: sans-serif;
+            font-size: 140%;
+            display: block;
+            margin: auto;
+            height: 107px;
+            width: 300px;
+            text-decoration: none;
+            padding: 5px 10px 5px 10px;
+            text-align: center;
+            color: #FFFFFF;
+            font-weight: normal;
+            background: #038D09;
+            border-bottom: medium solid #990000;
+            border-radius: 150px;
+            -moz-border-radius: 150px;
+            -khtml-border-radius: 150px;
+            -webkit-border-radius: 150px;
+        }
+
+        #pulse a {
+            letter-spacing: 0.05em;
+            font-family: sans-serif;
+            font-size: 140%;
+            display: block;
+            margin: auto;
+            height: 110px;
+            width: 300px;
+            text-decoration: none;
+            padding: 5px 10px 5px 10px;
+            text-align: center;
+            color: #FFFFFF;
+            font-weight: normal;
+            background: linear-gradient(#23D7B6, #06856D);
+            border-radius: 150px;
+            -moz-border-radius: 150px;
+            -khtml-border-radius: 150px;
+            -webkit-border-radius: 150px;
+        }
+
+        #pulse a:hover {
+            letter-spacing: 0.05em;
+            font-family: sans-serif;
+            font-size: 140%;
+            display: block;
+            margin: auto;
+            height: 110px;
+            width: 300px;
+            text-decoration: none;
+            padding: 5px 10px 5px 10px;
+            text-align: center;
+            color: #FFFFFF;
+            font-weight: normal;
+            background: #038D09;
+            border-bottom: medium solid #990000;
+            border-radius: 150px;
+            -moz-border-radius: 150px;
+            -khtml-border-radius: 150px;
+            -webkit-border-radius: 150px;
+        }
+
+        #store a {
+            letter-spacing: 0.05em;
+            font-family: sans-serif;
+            font-size: 140%;
+            display: block;
+            margin: auto;
+            height: 110px;
+            width: 300px;
+            text-decoration: none;
+            padding: 5px 10px 5px 10px;
+            text-align: center;
+            color: #FFFFFF;
+            font-weight: normal;
+            background: linear-gradient(#C19003, #82681E);
+            border-radius: 150px;
+            -moz-border-radius: 150px;
+            -khtml-border-radius: 150px;
+            -webkit-border-radius: 150px;
+        }
+
+        #store a:hover {
+            letter-spacing: 0.05em;
+            font-family: sans-serif;
+            font-size: 140%;
+            display: block;
+            margin: auto;
+            height: 107px;
+            width: 300px;
+            text-decoration: none;
+            padding: 5px 10px 5px 10px;
+            text-align: center;
+            color: #FFFFFF;
+            font-weight: normal;
+            background: #038D09;
+            border-bottom: medium solid #990000;
+            border-radius: 150px;
+            -moz-border-radius: 150px;
+            -khtml-border-radius: 150px;
+            -webkit-border-radius: 150px;
+        }
+
+        .container-calculator {
+            width: 500px;
+            margin-left: 50px;
+        }
+
+        .project-calculator-form {
+            margin-top: 2rem;
+        }
+
+        .project-calculator-form .input-labels div {
+            margin-bottom: 29px;
+        }
+
+        .project-calculator-form .db-inputs input {
+            display: block !important;
+            margin-bottom: 1rem !important;
+            height: 25px;
+            font-size: 16px;
+            max-width: 60px;
+        }
+
+        .project-calculator-form .three-columns {
+            float: left;
+            margin-right: 1rem;
+        }
+
+        .project-calculator-form .mode-label {
+            margin-bottom: 10px;
+        }
+
+        .slidecontainer {
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 225px;
+            height: 10px;
+            border-radius: 10px;
+            background: #fa9d9d;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #04AA6D;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #04AA6D;
+            cursor: pointer;
+        }
+
+        .select-dropdown,
+        .select-dropdown * {
+            height: 30px;
+            font-weight: bold;
+            font-size: 1em;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .select-dropdown {
+            position: relative;
+            background-color: #E6E6E6;
+            border-radius: 4px;
+        }
+
+        .select-dropdown select {
+            font-size: 1rem;
+            font-weight: bold;
+            max-width: 100%;
+            padding: 8px 24px 8px 10px;
+            border: none;
+            background-color: transparent;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .select-dropdown select:active, .select-dropdown select:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .select-dropdown:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            width: 0;
+            height: 0;
+            margin-top: -2px;
+            border-top: 5px solid #aaa;
+            border-right: 5px solid transparent;
+            border-left: 5px solid transparent;
+        }
+
+        .overlay-dot {
+            position: absolute;
+            z-index: 2;
+            left: 0px;
+            top: 0px;
+            color: #371;
+            font-size: 30px;
+            font-family: Handlee, cursive;
+        }
+    </style>
+
+</head>
+
+<body onload="init()">
+<hr style="border:none; height: 20px; width: 100%; height: 50px; margin-top: 0; border-bottom: 1px solid #1f1209; box-shadow: 0 20px 20px -20px #333; margin: -50px auto 10px;">
+
+<!-- CONTENT AREA HERE -->
+
+<div class="content">
+    <div class="container">
+        <h5 align="center" style="color:darkslategrey"><strong><font size="+3">Симулятор втрати слуху</font></strong>
+        </h5>
+        <hr>
+        <form id="formHearingLossGenerator">
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <td>
+                            <a href="../en/index.html">
+                                Back to English
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-left:1px solid black">
+                            <b><i class='fas fa-head-side-cough' style='font-size:20px'></i> &nbsp;</b>
+                            <select name="foreground" id="selectForeground" class="select-dropdown">
+                                <option value="0">Жіночий</option>
+                                <option value="1">Чоловічий</option>
+                                <option value="2" id="customOption">Користувацький</option>
+                            </select>
+                            <input type="file" id="customAudioFile" accept="audio/*" style="display: none;" onchange="handleCustomAudioFile(this.files)">
+                            <label class="icon-btn-wrapper blue-btn">
+                                <i class="fas fa-play"></i>
+                                <input type="button" id="buttonForegroundRun" value="Play">
+                            </label>
+                            <p></p>
+<!--                            <label class="icon-btn-wrapper blue-btn">-->
+<!--                                <i class="fas fa-upload"></i>-->
+<!--                                <input type="file" id="customAudioUpload" accept="audio/*" style="display: none;" onchange="handleCustomAudioUpload(event)">-->
+<!--                                <input type="button" id="buttonCustomAudioUpload" value="Upload Custom Audio">-->
+<!--                            </label>-->
+<!--                            <p></p>-->
+                            <b><i class='fa fa-bullseye' style='font-size:20px'></i> &nbsp;</b>
+                            <select name="background" id="selectBackground" class="select-dropdown">
+                                <option value="0">Пневматична дриль</option>
+                                <!--                                <option value="1">Babble-Female</option>-->
+                                <!--                                <option value="2">Babble-Male</option>-->
+                                <!--                                <option value="3">Babble-Male-Female</option>-->
+                                <!--                                <option value="4">Blower</option>-->
+                                <!--                                <option value="5">Brake Press</option>-->
+                                <!--                                <option value="6">Bulldozer</option>-->
+                                <!--                                <option value="7">Chisel</option>-->
+                                <!--                                <option value="8">Continuous Haulage</option>-->
+                                <!--                                <option value="9">Continuous Miner</option>-->
+                                <!--                                <option value="10">Generic-High</option>-->
+                                <!--                                <option value="11">Generic-Low</option>-->
+                                <!--                                <option value="12">Grinder</option>-->
+                                <!--                                <option value="13">Jet Landing</option>-->
+                                <!--                                <option value="14">Jet Takeoff</option>-->
+                                <!--                                <option value="15">Knife</option>-->
+                                <!--                                <option value="16">Music-Classical</option>-->
+                                <!--                                <option value="17">Music-Pop</option>-->
+                                <!--                                <option value="18">Riveting</option>-->
+                                <!--                                <option value="19">Silica Mill</option>-->
+                                <!--                                <option value="20">Silica Screening Tower</option>-->
+                                <!--                                <option value="21">Tinnitus-4K-Square</option>-->
+                                <!--                                <option value="22">Turret</option>-->
+                            </select>
+                            <label class="icon-btn-wrapper blue-btn">
+                                <i class="fas fa-play"></i>
+                                <input type="button" id="buttonBackgroundRun" value="Play">
+                            </label>
+                            <hr>
+                            <b><i class="fa fa-sliders" style="font-size:20px"></i></b> &nbsp;&nbsp;Голос &nbsp;&nbsp;
+                            <input type="range" id="rangeVolume" name="rangeVolume" min="-1" max="1" step="0.01"
+                                   class="slider">
+                            &nbsp;&nbsp;Шум
+                        </td>
+                        <td style="border-left:1px solid black">
+                            <p align="center"><b>Передустановки профілів</b></p>
+                            <b><i class='fa fa-gears' style='font-size:20px'></i> &nbsp;</b>
+                            <label class="icon-btn-wrapper blue-btn">
+                                <input type="button" id="buttonPresetNormal" value="Нормальний">
+                            </label>
+                            <label class="icon-btn-wrapper yellow-btn">
+                                <input type="button" id="buttonPresetMildHearingLoss" value="М'який">
+                            </label>
+                            <label class="icon-btn-wrapper orange-btn">
+                                <input type="button" id="buttonPresetModerate" value="Помірний">
+                            </label>
+                            <label class="icon-btn-wrapper red-btn">
+                                <input type="button" id="buttonPresetSevere" value="Сильний">
+                            </label>
+                            <label class="icon-btn-wrapper red-btn">
+                                <input type="button" id="buttonPresetVitalyRiabokon" value="Віталій Рябоконь">
+                            </label>
+                            <p></p>
+                            <b><i class='fas fa-headphones' style='font-size:20px'></i> &nbsp;</b>
+                            <label class="icon-btn-wrapper green-btn">
+                                <input type="button" id="buttonPlayRightAndLeft" value="Right & Left Separately">
+                            </label>
+                            <label class="icon-btn-wrapper green-btn">
+                                <input type="button" id="buttonPlayAVG" value="Average to Both Sides">
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <p>&nbsp;</p>
+
+            <div style="overflow-x:auto;">
+                <table style="background-color:#dfdedf">
+                    <tr style="border-bottom:1px solid black">
+                        <td><b>Hz</b></td>
+                        <td><b>125</b></td>
+                        <td><b>250</b></td>
+                        <td><b>500</b></td>
+                        <td><b>1000</b></td>
+                        <td><b>1500</b></td>
+                        <td><b>2000</b></td>
+                        <td><b>3000</b></td>
+                        <td><b>4000</b></td>
+                        <td><b>6000</b></td>
+                        <td><b>8000</b></td>
+                    </tr>
+                    <tr class="audiogram-db-inputs">
+                        <td><b>Праве вухо</b>:</td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight125" name="inputEqRight125" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight250" name="inputEqRight250" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight500" name="inputEqRight500" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight1000" name="inputEqRight1000" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight1500" name="inputEqRight1500" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight2000" name="inputEqRight2000" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight3000" name="inputEqRight3000" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight4000" name="inputEqRight4000" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight6000" name="inputEqRight6000" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                        <td>
+                            <input type="number" step="5" id="inputEqRight8000" name="inputEqRight8000" value="0"
+                                   min="-80"
+                                   max="0"/>
+                        </td>
+                    </tr>
+                    <tr class="audiogram-db-inputs">
+                        <td><b>Ліве вухо</b>:</td>
+                        <td><input type="number" step="5" id="inputEqLeft125" name="inputEqLeft125" value="0" min="-80"
+                                   max="0"/>
+                        </td>
+                        <td><input type="number" step="5" id="inputEqLeft250" name="inputEqLeft250" value="0" min="-80"
+                                   max="0"/>
+                        </td>
+                        <td><input type="number" step="5" id="inputEqLeft500" name="inputEqLeft500" value="0" min="-80"
+                                   max="0"/>
+                        </td>
+                        <td><input type="number" step="5" id="inputEqLeft1000" name="inputEqLeft1000" value="0"
+                                   min="-80"
+                                   max="0"/></td>
+                        <td><input type="number" step="5" id="inputEqLeft1500" name="inputEqLeft1500" value="0"
+                                   min="-80"
+                                   max="0"/></td>
+                        <td><input type="number" step="5" id="inputEqLeft2000" name="inputEqLeft2000" value="0"
+                                   min="-80"
+                                   max="0"/></td>
+                        <td><input type="number" step="5" id="inputEqLeft3000" name="inputEqLeft3000" value="0"
+                                   min="-80"
+                                   max="0"/></td>
+                        <td><input type="number" step="5" id="inputEqLeft4000" name="inputEqLeft4000" value="0"
+                                   min="-80"
+                                   max="0"/></td>
+                        <td><input type="number" step="5" id="inputEqLeft6000" name="inputEqLeft6000" value="0"
+                                   min="-80"
+                                   max="0"/></td>
+                        <td><input type="number" step="5" id="inputEqLeft8000" name="inputEqLeft8000" value="0"
+                                   min="-80"
+                                   max="0"/></td>
+                    </tr>
+                    <tr id="avg-outputs">
+                        <td><b>Середнє значення</b>:</td>
+                        <td>
+                            <output id="outputAVG125" name="outputAVG125">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG250" name="outputAVG250">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG500" name="outputAVG500">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG1000" name="outputAVG1000">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG1500" name="outputAVG1500">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG2000" name="outputAVG2000">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG3000" name="outputAVG3000">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG4000" name="outputAVG4000">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG6000" name="outputAVG6000">0</output>
+                        </td>
+                        <td>
+                            <output id="outputAVG8000" name="outputAVG8000">0</output>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+        <p></p>
+
+        <div align="center">
+            <!-- results diagram-->
+            <div id="theGrid">
+                <div id="audiogramGrid">
+                    <img id="audiogramBgImage" src="../partials/HLsimAudiogram.png" width="450px" height="450px"/>
+                    <div id="overL125" class="overlay-dot"></div>
+                    <div id="overL250" class="overlay-dot"></div>
+                    <div id="overL500" class="overlay-dot"></div>
+                    <div id="overL1000" class="overlay-dot"></div>
+                    <div id="overL1500" class="overlay-dot"></div>
+                    <div id="overL2000" class="overlay-dot"></div>
+                    <div id="overL3000" class="overlay-dot"></div>
+                    <div id="overL4000" class="overlay-dot"></div>
+                    <div id="overL6000" class="overlay-dot"></div>
+                    <div id="overL8000" class="overlay-dot"></div>
+                    <div id="overR125" class="overlay-dot"></div>
+                    <div id="overR250" class="overlay-dot"></div>
+                    <div id="overR500" class="overlay-dot"></div>
+                    <div id="overR1000" class="overlay-dot"></div>
+                    <div id="overR1500" class="overlay-dot"></div>
+                    <div id="overR2000" class="overlay-dot"></div>
+                    <div id="overR3000" class="overlay-dot"></div>
+                    <div id="overR4000" class="overlay-dot"></div>
+                    <div id="overR6000" class="overlay-dot"></div>
+                    <div id="overR8000" class="overlay-dot"></div>
+                    <div id="overA125" class="overlay-dot"></div>
+                    <div id="overA250" class="overlay-dot"></div>
+                    <div id="overA500" class="overlay-dot"></div>
+                    <div id="overA1000" class="overlay-dot"></div>
+                    <div id="overA1500" class="overlay-dot"></div>
+                    <div id="overA2000" class="overlay-dot"></div>
+                    <div id="overA3000" class="overlay-dot"></div>
+                    <div id="overA4000" class="overlay-dot"></div>
+                    <div id="overA6000" class="overlay-dot"></div>
+                    <div id="overA8000" class="overlay-dot"></div>
+                </div>
+                <div id="overlay"></div>
+            </div>
+            <!-- results diagram end-->
+        </div>
+        <hr>
+    </div>
+</div>
+<br>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../js/hearingLossGenerator.js?v1.0.04"></script>
+<script src="../js/HLsim.js?v1.0.04"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+
+<script>
+    var allHearingBands = [125, 250, 500, 1000, 1500, 2000, 3000, 4000, 6000, 8000];
+
+    $(function () {
+
+        $(".audiogram-db-inputs input").on('change', function () {
+            plotAllOnAudiogram();
+        });
+
+        plotAllOnAudiogram();
+    });
+
+    function plotAllOnAudiogram() {
+        $(".audiogram-db-inputs input").each(function () {
+            const $this = $(this);
+            if ($this.val() < 0 || $this.val() > 80) {
+                $this.val('');
+                alert('The value should be between 0 and 80.');
+            } else {
+                const $fieldId = $this.attr('id');
+
+                let top = "" + Math.round(76 + 3.4 * parseInt($this.val())) + "px";
+
+                // left ear input field changed
+                if ($fieldId.indexOf('inputEqLeft') == 0) {
+                    let frequency = parseInt($fieldId.replace('inputEqLeft', ''));
+
+                    let left = "" + Math.round((74 + 33 * allHearingBands.indexOf(frequency))) + "px";
+                    plotPointOnAudiogram('l', frequency, top, left);
+                } else {
+                    // right ear
+                    let frequency = parseInt($fieldId.replace('inputEqRight', ''));
+                    let left = "" + Math.round((74 + 33 * allHearingBands.indexOf(frequency))) + "px";
+                    plotPointOnAudiogram('r', frequency, top, left);
+                }
+
+            }
+
+            plotAvgsOnAudiogram();
+        });
+    }
+
+    function plotAvgsOnAudiogram() {
+        // also plot avg outputs on audiogram
+        $("#avg-outputs output").each(function () {
+            const $this = $(this);
+            const frequency = parseInt($this.attr('id').replace('outputAVG', ''));
+            let top = "" + Math.round(76 + 3.4 * parseInt($this.text())) + "px";
+            let left = "" + Math.round((74 + 33 * allHearingBands.indexOf(frequency))) + "px";
+            plotPointOnAudiogram('a', frequency, top, left);
+        });
+    }
+
+    function plotPointOnAudiogram(mode = 'l', frequncy, top, left) {
+        if (mode == 'l') {
+            // left ear dot
+            let sign = "x";
+            let color = "#00D";
+            document.getElementById('overL' + frequncy).innerHTML = sign;
+            document.getElementById('overL' + frequncy).style.top = top;
+            document.getElementById('overL' + frequncy).style.left = left;
+            document.getElementById('overL' + frequncy).style.color = color;
+        } else if (mode == 'r') {
+            // right ear dot
+            let sign = "o";
+            let color = "#D00";
+            document.getElementById('overR' + frequncy).innerHTML = sign;
+            document.getElementById('overR' + frequncy).style.top = top;
+            document.getElementById('overR' + frequncy).style.left = left;
+            document.getElementById('overR' + frequncy).style.color = color;
+        } else {
+            // avg dot
+            let sign = "+";
+            let color = "#371";
+            document.getElementById('overA' + frequncy).innerHTML = sign;
+            document.getElementById('overA' + frequncy).style.top = top;
+            document.getElementById('overA' + frequncy).style.left = left;
+            document.getElementById('overA' + frequncy).style.color = color;
+        }
+    }
+</script>
+</body>
+
+</html>

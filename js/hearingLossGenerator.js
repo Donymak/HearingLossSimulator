@@ -7,8 +7,8 @@ function SoundEngine() {
     // constants
 
     // global audio path to the audio files
-    this.audioPathForeground = "./audio/simulatorSounds/foreground/";
-    this.audioPathBackground = "./audio/simulatorSounds/background/";
+    this.audioPathForeground = "../audio/simulatorSounds/foreground/";
+    this.audioPathBackground = "../audio/simulatorSounds/background/";
 
     // q factor for the filters
     this.qFactor = 4;
