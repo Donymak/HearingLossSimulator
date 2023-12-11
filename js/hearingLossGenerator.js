@@ -197,6 +197,15 @@ SoundEngine.prototype.loadSoundForeground = function () {
             case "1":
                 audioName = "Male.mp3";
                 break;
+            case "3":
+                audioName = "OceanWaves.mp3";
+                break;
+            case "4":
+                audioName = "Forest.mp3";
+                break;
+            case "5":
+                audioName = "Restaurant.mp3";
+                break;
 
             default:
         }
@@ -920,9 +929,8 @@ function init() {
     var selectForeground = document.getElementById("selectForeground");
     selectForeground.addEventListener("change", function () {
         if (this.value === "2") {
-            document.getElementById("customAudioFile").click(); // Trigger file input
+            document.getElementById("customAudioFile").click();
         } else {
-            // Handle other options as before
             mySoundEngine.setForegroundId(this.value);
         }
     });
