@@ -731,11 +731,11 @@ SoundEngine.prototype.setPresetValues = function (preset, secondPreset) {
 // Method to normalise current eq values
 SoundEngine.prototype.normaliseCurrentPreset = function () {
     if (this.eqL.every((value) => value <= 55) || this.eqR.every((value) => value <= 55)) {
-        alert("Current preset is already in normalised range");
+        // TODO: handle this case
     }
 
     this.playNormalised = true;
-    this.setPresetValues(this.eqL ,this.eqR);
+    this.setPresetValues(this.eqL, this.eqR);
     plotAllOnAudiogram();
 };
 
@@ -745,7 +745,7 @@ SoundEngine.prototype.loadCustomAudioForeground = function (audioFile) {
         this.createAudioCtx();
     }
 
-    var reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (event) => {
         this.audioCtx.decodeAudioData(event.target.result, (buffer) => {
             this.bufferForeground = buffer;
@@ -922,30 +922,25 @@ function handleCustomAudioFile(files) {
 
 function init() {
 
-    // set listeners for GUI 
-
-    var buttonForegroundRun = document.getElementById("buttonForegroundRun"),
+    // set listeners for GUI
+    const buttonForegroundRun = document.getElementById("buttonForegroundRun"),
         buttonForegroundRunIcon = buttonForegroundRun.parentNode.querySelector('i'),
-        buttonForegroundRunWrapper = buttonForegroundRun.parentNode;
+        buttonForegroundRunSpan = buttonForegroundRun.parentNode.querySelector('span');
     buttonForegroundRun.addEventListener("click", function () {
         if (mySoundEngine.foregroundPlaying) {
-            buttonForegroundRunWrapper.classList.remove('red-btn')
-            buttonForegroundRunWrapper.classList.add('blue-btn')
             buttonForegroundRunIcon.classList.remove('fa-stop');
             buttonForegroundRunIcon.classList.add('fa-play');
-            buttonForegroundRun.value = 'Play';
+            buttonForegroundRunSpan.textContent = 'Play';
             handleButtonForegroundPause();
         } else {
-            buttonForegroundRunWrapper.classList.remove('blue-btn');
-            buttonForegroundRunWrapper.classList.add('red-btn');
             buttonForegroundRunIcon.classList.remove('fa-play');
             buttonForegroundRunIcon.classList.add('fa-stop');
-            buttonForegroundRun.value = 'Stop';
+            buttonForegroundRunSpan.textContent = 'Stop';
             handleButtonForegroundPlay();
         }
     });
 
-    var selectForeground = document.getElementById("selectForeground");
+    const selectForeground = document.getElementById("selectForeground");
     selectForeground.addEventListener("change", function () {
         if (this.value === "2") {
             document.getElementById("customAudioFile").click();
@@ -954,73 +949,100 @@ function init() {
         }
     });
 
-    var customOption = document.getElementById("customOption");
+    const customOption = document.getElementById("customOption");
     customOption.addEventListener("click", function () {
         document.getElementById("customAudioFile").click(); // Trigger file input
     });
 
-    // var buttonForegroundPlay = document.getElementById("buttonForegroundPlay");
-    // buttonForegroundPlay.addEventListener("click",handleButtonForegroundPlay);
-    // var buttonForegroundPause = document.getElementById("buttonForegroundPause");
-    // buttonForegroundPause.addEventListener("click",handleButtonForegroundPause);
-
-    var buttonBackgroundRun = document.getElementById("buttonBackgroundRun"),
+    const buttonBackgroundRun = document.getElementById("buttonBackgroundRun"),
         buttonBackgroundRunIcon = buttonBackgroundRun.parentNode.querySelector('i'),
-        buttonBackgroundRunWrapper = buttonBackgroundRun.parentNode;
+        buttonBackgroundRunSpan = buttonBackgroundRun.parentNode.querySelector('span');
     buttonBackgroundRun.addEventListener("click", function () {
         if (mySoundEngine.backgroundPlaying) {
-            buttonBackgroundRunWrapper.classList.remove('red-btn')
-            buttonBackgroundRunWrapper.classList.add('blue-btn')
             buttonBackgroundRunIcon.classList.remove('fa-stop');
             buttonBackgroundRunIcon.classList.add('fa-play');
-            buttonBackgroundRun.value = 'Play';
+            buttonBackgroundRunSpan.textContent = 'Play';
             handleButtonBackgroundPause();
         } else {
-            buttonBackgroundRunWrapper.classList.remove('blue-btn');
-            buttonBackgroundRunWrapper.classList.add('red-btn');
             buttonBackgroundRunIcon.classList.remove('fa-play');
             buttonBackgroundRunIcon.classList.add('fa-stop');
-            buttonBackgroundRun.value = 'Stop';
+            buttonBackgroundRunSpan.textContent = 'Stop';
             handleButtonBackgroundPlay();
         }
     });
 
-    var selectBackground = document.getElementById("selectBackground");
+    const selectBackground = document.getElementById("selectBackground");
     selectBackground.addEventListener("input", function () {
         if (mySoundEngine.backgroundPlaying)
             buttonBackgroundRun.click();
         mySoundEngine.setBackgroundId(this.value);
     });
-    // var buttonBackgroundPlay = document.getElementById("buttonBackgroundPlay");
-    // buttonBackgroundPlay.addEventListener("click",handleButtonBackgroundPlay);
-    // var buttonBackgroundPause = document.getElementById("buttonBackgroundPause");
-    // buttonBackgroundPause.addEventListener("click",handleButtonBackgroundPause);
 
-    var rangeVolume = document.getElementById("rangeVolume");
+    const rangeVolume = document.getElementById("rangeVolume");
+    let lastTap = 0;
     rangeVolume.addEventListener("input", function () {
         mySoundEngine.setVolume(this.value);
     });
+    rangeVolume.addEventListener("dblclick", function () {
+        this.value = 0;
+        rangeVolume.dispatchEvent(new Event('input'));
+    });
+    rangeVolume.addEventListener('touchend', function () {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        if (tapLength < 300 && tapLength > 0) {
+            this.value = 0;
+            rangeVolume.dispatchEvent(new Event('input'));
+        }
+        lastTap = currentTime;
+    });
 
-    var buttonPresetNormal = document.getElementById("buttonPresetNormal");
+    const buttonPresetNormal = document.getElementById("buttonPresetNormal");
     buttonPresetNormal.addEventListener("click", handleButtonPresetNormal);
-    var buttonPresetMildHearingLoss = document.getElementById("buttonPresetMildHearingLoss");
+    const buttonPresetMildHearingLoss = document.getElementById("buttonPresetMildHearingLoss");
     buttonPresetMildHearingLoss.addEventListener("click", handleButtonPresetMildHearingLoss);
-    var buttonPresetModerate = document.getElementById("buttonPresetModerate");
+    const buttonPresetModerate = document.getElementById("buttonPresetModerate");
     buttonPresetModerate.addEventListener("click", handleButtonPresetModerate);
-    var buttonPresetSevere = document.getElementById("buttonPresetSevere");
+    const buttonPresetSevere = document.getElementById("buttonPresetSevere");
     buttonPresetSevere.addEventListener("click", handleButtonPresetSevere);
-    var buttonPresetVitalyRiabokon = document.getElementById("buttonPresetVitalyRiabokon");
+    const buttonPresetVitalyRiabokon = document.getElementById("buttonPresetVitalyRiabokon");
     buttonPresetVitalyRiabokon.addEventListener("click", handleButtonPresetVitalyRiabokon);
-    var buttonPresetTest = document.getElementById("buttonPresetTest");
+    const buttonPresetTest = document.getElementById("buttonPresetTest");
     buttonPresetTest.addEventListener("click", handleButtonPresetTest);
-    
-    var buttonNormalise = document.getElementById("buttonNormalise");
+
+
+    const presetsButtons = document.querySelectorAll('.presets-btn-wrapper button');
+    presetsButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove the active class from all buttons
+            presetsButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add the active class to the clicked button
+            this.classList.add('active');
+        });
+    });
+
+    const formatsButtons = document.querySelectorAll('.format-btn-wrapper button');
+    formatsButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove the active class from all buttons
+            formatsButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add the active class to the clicked button
+            this.classList.add('active');
+        });
+    });
+
+
+
+
+    const buttonNormalise = document.getElementById("buttonNormalise");
     buttonNormalise.addEventListener("click", handleButtonNormalise);
 
     // Event listener to close all tooltips when clicking outside
-    document.addEventListener('click', function(event) {
-        if (!event.target.matches('.info-circle, .info-circle *')) {
-            document.querySelectorAll('.tooltip').forEach(function(tooltip) {
+    document.addEventListener('click', function (event) {
+        if (!event.target.matches('.info-circle, info-wrapper, .info-circle *')) {
+            document.querySelectorAll('.tooltip').forEach(function (tooltip) {
                 tooltip.style.display = 'none';
             });
         }
@@ -1088,9 +1110,9 @@ function init() {
         if (this.value >= 0 && this.value <= 80) mySoundEngine.setEq("left", 9, this.value);
     });
 
-    var buttonPlayRightAndLeft = document.getElementById("buttonPlayRightAndLeft");
+    const buttonPlayRightAndLeft = document.getElementById("buttonPlayRightAndLeft");
     buttonPlayRightAndLeft.addEventListener("click", handleButtonPlayRightAndLeft);
-    var buttonPlayAVG = document.getElementById("buttonPlayAVG");
+    const buttonPlayAVG = document.getElementById("buttonPlayAVG");
     buttonPlayAVG.addEventListener("click", handleButtonPlayAVG);
 
 }
