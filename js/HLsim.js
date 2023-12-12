@@ -160,7 +160,7 @@ AudioGram.prototype.clear = function() {
 }
 
 // global instance of AudioGram class
-var audioGram = new AudioGram();
+const audioGram = new AudioGram();
 
 /* AudioGram class end */
 /*****************************************************************************************/

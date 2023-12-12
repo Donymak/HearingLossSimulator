@@ -188,7 +188,7 @@ SoundEngine.prototype.createAudioCtx = function () {
 // loads a foreground sound
 SoundEngine.prototype.loadSoundForeground = function () {
     if (!this.foregroundLoaded) {
-        var audioName;
+        let audioName;
 
         switch (this.foregroundID) {
             case "0":
@@ -197,13 +197,13 @@ SoundEngine.prototype.loadSoundForeground = function () {
             case "1":
                 audioName = "Male.mp3";
                 break;
-            case "3":
+            case "2":
                 audioName = "OceanWaves.mp3";
                 break;
-            case "4":
+            case "3":
                 audioName = "Forest.mp3";
                 break;
-            case "5":
+            case "4":
                 audioName = "Restaurant.mp3";
                 break;
 
@@ -211,7 +211,7 @@ SoundEngine.prototype.loadSoundForeground = function () {
         }
 
 
-        var request0 = new XMLHttpRequest();
+        const request0 = new XMLHttpRequest();
         request0.open('GET', this.audioPathForeground + audioName, true);
         request0.responseType = 'arraybuffer';
         // Decode asynchronously
@@ -239,7 +239,7 @@ SoundEngine.prototype.loadSoundForeground = function () {
 // loads a background sound
 SoundEngine.prototype.loadSoundBackground = function () {
     if (!this.backgroundLoaded) {
-        var audioName;
+        let audioName;
 
         switch (this.backgroundID) {
             case "0":
@@ -316,7 +316,7 @@ SoundEngine.prototype.loadSoundBackground = function () {
         }
 
 
-        var request0 = new XMLHttpRequest();
+        const request0 = new XMLHttpRequest();
         request0.open('GET', this.audioPathBackground + audioName, true);
         request0.responseType = 'arraybuffer';
         // Decode asynchronously
@@ -418,7 +418,6 @@ SoundEngine.prototype.setForegroundId = function (value) {
         this.foregroundID = value;
         this.foregroundLoaded = false;
     }
-
 };
 
 // set id for background sound
@@ -428,7 +427,6 @@ SoundEngine.prototype.setBackgroundId = function (value) {
         this.backgroundID = value;
         this.backgroundLoaded = false;
     }
-
 };
 
 // set volume
@@ -456,7 +454,7 @@ SoundEngine.prototype.setVolume = function (value) {
 
 // get value for filter
 SoundEngine.prototype.getValueForFilter = function (leftRight, number) {
-    var value;
+    let value;
     if (leftRight === "right") {
         if (this.playAVG) {
             value = this.avg[number];
@@ -623,7 +621,7 @@ SoundEngine.prototype.setPlayAVG = function (play) {
 
 // set preset
 SoundEngine.prototype.setPreset = function (number) {
-    var preset, secondPreset;
+    let preset, secondPreset;
     switch (number) {
         case 0:
             this.playNormalised = false;
@@ -763,42 +761,42 @@ SoundEngine.prototype.loadCustomAudioForeground = function (audioFile) {
 
 
 // useful references
-var inputEqRight125 = document.getElementById("inputEqRight125");
-var inputEqRight250 = document.getElementById("inputEqRight250");
-var inputEqRight500 = document.getElementById("inputEqRight500");
-var inputEqRight1000 = document.getElementById("inputEqRight1000");
-var inputEqRight1500 = document.getElementById("inputEqRight1500");
-var inputEqRight2000 = document.getElementById("inputEqRight2000");
-var inputEqRight3000 = document.getElementById("inputEqRight3000");
-var inputEqRight4000 = document.getElementById("inputEqRight4000");
-var inputEqRight6000 = document.getElementById("inputEqRight6000");
-var inputEqRight8000 = document.getElementById("inputEqRight8000");
+const inputEqRight125 = document.getElementById("inputEqRight125");
+const inputEqRight250 = document.getElementById("inputEqRight250");
+const inputEqRight500 = document.getElementById("inputEqRight500");
+const inputEqRight1000 = document.getElementById("inputEqRight1000");
+const inputEqRight1500 = document.getElementById("inputEqRight1500");
+const inputEqRight2000 = document.getElementById("inputEqRight2000");
+const inputEqRight3000 = document.getElementById("inputEqRight3000");
+const inputEqRight4000 = document.getElementById("inputEqRight4000");
+const inputEqRight6000 = document.getElementById("inputEqRight6000");
+const inputEqRight8000 = document.getElementById("inputEqRight8000");
 
-var inputEqLeft125 = document.getElementById("inputEqLeft125");
-var inputEqLeft250 = document.getElementById("inputEqLeft250");
-var inputEqLeft500 = document.getElementById("inputEqLeft500");
-var inputEqLeft1000 = document.getElementById("inputEqLeft1000");
-var inputEqLeft1500 = document.getElementById("inputEqLeft1500");
-var inputEqLeft2000 = document.getElementById("inputEqLeft2000");
-var inputEqLeft3000 = document.getElementById("inputEqLeft3000");
-var inputEqLeft4000 = document.getElementById("inputEqLeft4000");
-var inputEqLeft6000 = document.getElementById("inputEqLeft6000");
-var inputEqLeft8000 = document.getElementById("inputEqLeft8000");
+const inputEqLeft125 = document.getElementById("inputEqLeft125");
+const inputEqLeft250 = document.getElementById("inputEqLeft250");
+const inputEqLeft500 = document.getElementById("inputEqLeft500");
+const inputEqLeft1000 = document.getElementById("inputEqLeft1000");
+const inputEqLeft1500 = document.getElementById("inputEqLeft1500");
+const inputEqLeft2000 = document.getElementById("inputEqLeft2000");
+const inputEqLeft3000 = document.getElementById("inputEqLeft3000");
+const inputEqLeft4000 = document.getElementById("inputEqLeft4000");
+const inputEqLeft6000 = document.getElementById("inputEqLeft6000");
+const inputEqLeft8000 = document.getElementById("inputEqLeft8000");
 
-var outputAVG125 = document.getElementById("outputAVG125");
-var outputAVG250 = document.getElementById("outputAVG250");
-var outputAVG500 = document.getElementById("outputAVG500");
-var outputAVG1000 = document.getElementById("outputAVG1000");
-var outputAVG1500 = document.getElementById("outputAVG1500");
-var outputAVG2000 = document.getElementById("outputAVG2000");
-var outputAVG3000 = document.getElementById("outputAVG3000");
-var outputAVG4000 = document.getElementById("outputAVG4000");
-var outputAVG6000 = document.getElementById("outputAVG6000");
-var outputAVG8000 = document.getElementById("outputAVG8000");
+const outputAVG125 = document.getElementById("outputAVG125");
+const outputAVG250 = document.getElementById("outputAVG250");
+const outputAVG500 = document.getElementById("outputAVG500");
+const outputAVG1000 = document.getElementById("outputAVG1000");
+const outputAVG1500 = document.getElementById("outputAVG1500");
+const outputAVG2000 = document.getElementById("outputAVG2000");
+const outputAVG3000 = document.getElementById("outputAVG3000");
+const outputAVG4000 = document.getElementById("outputAVG4000");
+const outputAVG6000 = document.getElementById("outputAVG6000");
+const outputAVG8000 = document.getElementById("outputAVG8000");
 
 
 //instance of class SoundEngine
-var mySoundEngine = new SoundEngine();
+const mySoundEngine = new SoundEngine();
 
 
 // help functions
@@ -942,7 +940,7 @@ function init() {
 
     const selectForeground = document.getElementById("selectForeground");
     selectForeground.addEventListener("change", function () {
-        if (this.value === "2") {
+        if (this.value === "5") {
             document.getElementById("customAudioFile").click();
         } else {
             mySoundEngine.setForegroundId(this.value);
