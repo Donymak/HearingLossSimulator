@@ -76,22 +76,7 @@ hr {
     border-top: 1px solid #ddd;
 }
 
-table {
-    background-color: transparent;
-    border-spacing: 0;
-    border-collapse: collapse;
-    border-left: 1px solid #ddd;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-th,
-td {
-    padding: .5em 1em;
-    vertical-align: top;
-    text-align: left;
-    border-right: 0px solid #ddd;
-}
 
 
 @media (max-width: 924px) {
@@ -164,17 +149,6 @@ div.imageright {
     margin-top: 0em;
     margin-left: 1.3em;
     margin-bottom: 1.3em;
-}
-
-table.sound td {
-    padding: 0.25em 0.55em;
-    text-align: center;
-}
-
-table.sound td.description {
-    color: #888;
-    padding: 0.5em;
-    font-style: italic;
 }
 
 .set1 {
@@ -713,11 +687,6 @@ img, video {
     opacity: 1;
 }
 
-.table {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 20px;
-}
 
 /* -----------------------
 Wide styles
