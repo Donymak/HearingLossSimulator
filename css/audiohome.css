@@ -93,30 +93,6 @@ td {
     border-right: 0px solid #ddd;
 }
 
-a {
-    color: #0645AD;
-    cursor: pointer;
-}
-
-a:link {
-    color: #0645AD;
-}
-
-a:visited {
-    color: #0B0080;
-}
-
-a:focus {
-    color: #0645AD;
-}
-
-a:hover {
-    color: #E60;
-}
-
-a:active {
-    color: #663366;
-}
 
 @media (max-width: 924px) {
     .hide {
@@ -225,13 +201,22 @@ table.sound td.description {
 .theGrid {
     width: 350px;
     height: 450px;
-    margin: 1em auto 0 auto;
     position: relative;
+}
+
+#buttonForegroundRun, #buttonBackgroundRun {
+    width: 100px;
+}
+
+#selectForeground, #selectBackground {
+    border: 0;
+    border-right: 8px solid transparent;
+    outline: 1px solid #ccc;
 }
 
 #audiogramGrid {
     position: relative;
-    left: 0px;
+    left: -44px;
     top: 0px;
     width: 350px;
     height: 450px;
@@ -311,6 +296,15 @@ Single styles
     cursor: pointer; /* Indicates it's clickable */
 }
 
+.info-wrapper {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: relative; /* Needed for tooltip positioning */
+    cursor: pointer; /* Indicates it's clickable */
+}
+
 .tooltip {
     width: 250px;
     position: absolute;
@@ -322,6 +316,367 @@ Single styles
     padding: 5px;
     border-radius: 4px;
     z-index: 10; /* Needed to keep the tooltip above other elements */
+}
+
+.btn {
+    outline: none;
+    border: 0px;
+    padding: 5px 10px !important;
+    font-size: 15px !important;
+}
+
+.icon-btn-wrapper input[type=button] {
+    border: 0;
+    background: transparent;
+    margin-bottom: 0px;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.icon-btn-wrapper img {
+    width: 25px;
+    height: 15px;
+}
+
+.icon-btn-wrapper {
+    background: #739973;
+    display: inline-block;
+    color: #FFF !important;
+    padding: 5px 10px;
+    margin-left: .5rem;
+    margin-bottom: .5rem;
+    cursor: pointer;
+    box-shadow: 3px 3px #888888;
+    border-radius: 10px;
+}
+
+label.icon-btn-wrapper.blue-btn:hover {
+    background: #014e68 !important;
+}
+
+.icon-btn-wrapper:hover {
+    background: #474;
+}
+
+.icon-btn-wrapper.selected {
+    background: #474 !important;
+}
+
+label.icon-btn-wrapper.red-btn:hover {
+    background: #b52828 !important;
+}
+
+.red-btn {
+    background: #F53004 !important;
+}
+
+.blue-btn {
+    background: #0453F5 !important;
+}
+
+.green-btn {
+    background: #039E18 !important;
+}
+
+label.icon-btn-wrapper.green-btn:hover {
+    background: #03701d !important;
+}
+
+.yellow-btn {
+    background: #b6aa05 !important;
+}
+
+label.icon-btn-wrapper.yellow-btn:hover {
+    background: #a39b05 !important;
+}
+
+.orange-btn {
+    background: #cf6604 !important;
+}
+
+label.icon-btn-wrapper.orange-btn:hover {
+    background: #9b6603 !important;
+}
+
+.center-text {
+    display: inline-block;
+    margin-bottom: 10px !important;
+}
+
+#contentbutton br {
+    display: none !important;
+}
+
+#contentbutton {
+    margin: 0 auto !important;
+    text-align: center !important;
+}
+
+#contentbutton {
+    text-align: left;
+    padding: 0 0 0 10px;
+    overflow: hidden;
+}
+
+#contentbutton > h1 {
+    margin: 0
+}
+
+#tin a {
+    letter-spacing: 0.05em;
+    font-family: sans-serif;
+    font-size: 140%;
+    display: block;
+    margin: auto;
+    height: 110px;
+    width: 300px;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: normal;
+    background: linear-gradient(#FC143E, #A50824);
+    border-radius: 150px;
+    -moz-border-radius: 150px;
+    -khtml-border-radius: 150px;
+    -webkit-border-radius: 150px;
+}
+
+#tin a:hover {
+    letter-spacing: 0.05em;
+    font-family: sans-serif;
+    font-size: 140%;
+    display: block;
+    margin: auto;
+    height: 107px;
+    width: 300px;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: normal;
+    background: #038D09;
+    border-bottom: medium solid #990000;
+    border-radius: 150px;
+    -moz-border-radius: 150px;
+    -khtml-border-radius: 150px;
+    -webkit-border-radius: 150px;
+}
+
+#pulse a {
+    letter-spacing: 0.05em;
+    font-family: sans-serif;
+    font-size: 140%;
+    display: block;
+    margin: auto;
+    height: 110px;
+    width: 300px;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: normal;
+    background: linear-gradient(#23D7B6, #06856D);
+    border-radius: 150px;
+    -moz-border-radius: 150px;
+    -khtml-border-radius: 150px;
+    -webkit-border-radius: 150px;
+}
+
+#pulse a:hover {
+    letter-spacing: 0.05em;
+    font-family: sans-serif;
+    font-size: 140%;
+    display: block;
+    margin: auto;
+    height: 110px;
+    width: 300px;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: normal;
+    background: #038D09;
+    border-bottom: medium solid #990000;
+    border-radius: 150px;
+    -moz-border-radius: 150px;
+    -khtml-border-radius: 150px;
+    -webkit-border-radius: 150px;
+}
+
+#store a {
+    letter-spacing: 0.05em;
+    font-family: sans-serif;
+    font-size: 140%;
+    display: block;
+    margin: auto;
+    height: 110px;
+    width: 300px;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: normal;
+    background: linear-gradient(#C19003, #82681E);
+    border-radius: 150px;
+    -moz-border-radius: 150px;
+    -khtml-border-radius: 150px;
+    -webkit-border-radius: 150px;
+}
+
+#store a:hover {
+    letter-spacing: 0.05em;
+    font-family: sans-serif;
+    font-size: 140%;
+    display: block;
+    margin: auto;
+    height: 107px;
+    width: 300px;
+    text-decoration: none;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: normal;
+    background: #038D09;
+    border-bottom: medium solid #990000;
+    border-radius: 150px;
+    -moz-border-radius: 150px;
+    -khtml-border-radius: 150px;
+    -webkit-border-radius: 150px;
+}
+
+.container-calculator {
+    width: 500px;
+    margin-left: 50px;
+}
+
+.project-calculator-form {
+    margin-top: 2rem;
+}
+
+.project-calculator-form .input-labels div {
+    margin-bottom: 29px;
+}
+
+.project-calculator-form .db-inputs input {
+    display: block !important;
+    margin-bottom: 1rem !important;
+    height: 25px;
+    font-size: 16px;
+    max-width: 60px;
+}
+
+.project-calculator-form .three-columns {
+    float: left;
+    margin-right: 1rem;
+}
+
+.project-calculator-form .mode-label {
+    margin-bottom: 10px;
+}
+
+.slidecontainer {
+    width: 100%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background: #fa9d9d;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #04AA6D;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+}
+
+.active {
+    background-color: #4299e1 !important;
+    color: white !important;
+}
+
+.select-dropdown,
+.select-dropdown * {
+    height: 30px;
+    font-weight: bold;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.select-dropdown {
+    position: relative;
+    background-color: #E6E6E6;
+    border-radius: 4px;
+}
+
+.select-dropdown select {
+    font-size: 1rem;
+    font-weight: bold;
+    max-width: 100%;
+    padding: 8px 24px 8px 10px;
+    border: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.select-dropdown select:active, .select-dropdown select:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.select-dropdown:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    width: 0;
+    height: 0;
+    margin-top: -2px;
+    border-top: 5px solid #aaa;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+}
+
+.overlay-dot {
+    position: absolute;
+    z-index: 2;
+    left: 0px;
+    top: 0px;
+    color: #371;
+    font-size: 30px;
+    font-family: Handlee, cursive;
+}
+
+img, video {
+    max-width: none !important;
+    height: 100% !important;
 }
 
 .btn,
