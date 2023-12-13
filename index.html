@@ -1,9 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Loading...</title>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=en/index.html"> <!-- Default redirection if JavaScript is disabled -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Hearing Loss Simulator</title>
+    <meta name="keywords"
+          content="hearing loss simulation, simulator of hearing loss, what is hearing loss like, simulate hearing loss"/>
+    <meta name="description"
+          content="Simulate what hearing loss is like based on hearing test results that you can manually adjust."/>
+    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- icons -->
+    <link rel="icon" type="image/png" href="audiogram/favicon-32x32.png" sizes="32x32">
+    <link rel="manifest" href="audiogram/manifest.json">
+    <link rel="alternate" hreflang="uk" href="uk/index.html" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="audiogram/mstile-144x144.png">
+    <meta property="og:title" content="Hearing Loss Simulator">
+    <meta property="og:description"
+          content="An interactive tool to simulate the experience of hearing loss, which can be customized based on specific hearing test results.">
+    <meta property="og:url" content="https://donymak.github.io/HearingLossSimulator/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image:width" content="1024px">
+    <meta property="og:image:height" content="1024px">
+    <meta property="og:image" content="assets/summary.png"/>
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="css/audiohome.css">
+    <link rel="stylesheet" href="css/navmenu.css">
+
+    <!-- BEGIN Font Icons CODE -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4X8VTYBCJD"></script>
@@ -15,24 +54,313 @@
         gtag('config', 'G-4X8VTYBCJD');
     </script>
 
-    <script>
-        // Function to detect user's language and redirect accordingly
-        function redirectBasedOnLanguage() {
-            const language = navigator.language || navigator.userLanguage; // Get browser language
-            if(language.indexOf('uk') !== -1) {
-                // If Ukrainian, redirect to the Ukrainian version
-                window.location.href = 'uk/index.html';
-            } else {
-                // Default to English version
-                window.location.href = 'en/index.html';
-            }
-        }
-    </script>
 </head>
-<body onload="redirectBasedOnLanguage();">
-<noscript>
-    <meta http-equiv="refresh" content="0; url=en/index.html"> <!-- Fallback redirection if JavaScript is disabled -->
-</noscript>
-Redirecting...
+
+<body onload="init()">
+<!-- CONTENT AREA HERE -->
+
+<div class="content bg-gray-100">
+    <div class="container">
+        <header class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">Hearing Loss Simulator</h1>
+            <button class="px-4 py-2 bg-blue-500 rounded hover:bg-blue-600 transition duration-200">
+                <a href="uk/index.html" class="text-white">
+                    Включити українську версію
+                </a>
+            </button>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div>
+                <label class="block text-lg font-semibold mb-2">Main Sound</label>
+                <div class="flex items-center">
+                    <select name="foreground" id="selectForeground"
+                            class="block w-full border border-gray-300 rounded p-2 mr-2">
+                        <option value="0">Female</option>
+                        <option value="1">Male</option>
+                        <option value="2">OceanWaves</option>
+                        <option value="3">Forest</option>
+                        <option value="4">Restaurant</option>
+                        <option value="5" id="customOption">Select custom audio</option>
+                    </select>
+                    <input type="file" id="customAudioFile" accept="audio/*" style="display: none;"
+                           onchange="handleCustomAudioFile(this.files)">
+                    <button id="buttonForegroundRun"
+                            class="flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200">
+                        <i class="fas fa-play mr-2"></i>
+                        <span>Play</span>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <label class="block text-lg font-semibold mb-2">Background Sound</label>
+                <div class="flex items-center">
+                    <select name="background" id="selectBackground"
+                            class="block w-full border border-gray-300 rounded p-2 mr-2">
+                        <option value="0">Air Track Drill</option>
+                    </select>
+                    <button id="buttonBackgroundRun"
+                            class="flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200">
+                        <i class="fas fa-play mr-2"></i>
+                        <span>Play</span>
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-lg font-semibold mb-2">Balance</label>
+                <input type="range" id="rangeVolume" name="rangeVolume" min="-1" max="1" step="0.01" class="slider">
+                <div class="flex justify-between">
+                    <span>Main</span>
+                    <span>Background</span>
+                </div>
+            </div>
+        </div>
+
+
+        <label class="block text-lg font-semibold mb-2 ">Presets</label>
+        <div class="flex flex-wrap gap-2 mb-6 presets-btn-wrapper">
+            <button id="buttonPresetNormal" class="px-4 py-2 bg-gray-300 text-gray-700 rounded active">Normal</button>
+            <button id="buttonPresetMildHearingLoss" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Mild</button>
+            <button id="buttonPresetModerate" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Moderate</button>
+            <button id="buttonPresetSevere" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Severe</button>
+            <button id="buttonPresetVitalyRiabokon" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Vitaly Riabokon</button>
+            <button id="buttonPresetTest" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Vitaly Riabokon (Normalised)</button>
+        </div>
+
+        <label class="block text-lg font-semibold mb-2 ">Playing format</label>
+        <div class="flex flex-wrap gap-2 mb-6 format-btn-wrapper">
+            <button id="buttonPlayRightAndLeft" class="px-4 py-2 bg-gray-300 text-gray-700 rounded active">Right & Left Separately</button>
+            <button id="buttonPlayAVG" class="px-4 py-2 bg-gray-300 text-gray-700 rounded">Average to Both Sides</button>
+        </div>
+
+        <form id="formHearingLossGenerator">
+            <div class="overflow-x-auto mb-6">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                    <tr class="bg-gray-200">
+                        <th class="p-2 border">Hertz</th>
+                        <th class="p-2 border">125&nbsp;</th>
+                        <th class="p-2 border">250&nbsp;</th>
+                        <th class="p-2 border">500&nbsp;</th>
+                        <th class="p-2 border">1000</th>
+                        <th class="p-2 border">1500</th>
+                        <th class="p-2 border">2000</th>
+                        <th class="p-2 border">3000</th>
+                        <th class="p-2 border">4000</th>
+                        <th class="p-2 border">6000</th>
+                        <th class="p-2 border">8000</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="audiogram-db-inputs">
+                        <td class="p-2 border-2 whitespace-nowrap">Left Ear</td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight125"  name="inputEqRight125"  value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight250"  name="inputEqRight250"  value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight500"  name="inputEqRight500"  value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight1000" name="inputEqRight1000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight1500" name="inputEqRight1500" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight2000" name="inputEqRight2000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight3000" name="inputEqRight3000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight4000" name="inputEqRight4000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight6000" name="inputEqRight6000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqRight8000" name="inputEqRight8000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                    </tr>
+                    <tr class="audiogram-db-inputs">
+                        <td class="p-2 border-2 whitespace-nowrap">Right Ear</td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft125"  name="inputEqLeft125"  value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft250"  name="inputEqLeft250"  value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft500"  name="inputEqLeft500"  value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft1000" name="inputEqLeft1000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft1500" name="inputEqLeft1500" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft2000" name="inputEqLeft2000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft3000" name="inputEqLeft3000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft4000" name="inputEqLeft4000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft6000" name="inputEqLeft6000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                        <td class="p-1 border-2"><input type="number" step="5" id="inputEqLeft8000" name="inputEqLeft8000" value="0" min="0" max="80" class="w-full border rounded p-1"></td>
+                    </tr>
+                    <tr class="bg-gray-100" id="avg-outputs">
+                        <td class="p-2 border font-semibold">Average</td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG125"  name="outputAVG125"   class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG250"  name="outputAVG250"   class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG500"  name="outputAVG500"   class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG1000" name="outputAVG1000"  class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG1500" name="outputAVG1500"  class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG2000" name="outputAVG2000"  class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG3000" name="outputAVG3000"  class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG4000" name="outputAVG4000"  class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG6000" name="outputAVG6000"  class="w-full rounded p-1" >0</output></td>
+                        <td class="p-1 pt-2 border-2"><output id="outputAVG8000" name="outputAVG8000"  class="w-full rounded p-1" >0</output></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex items-center">
+                <button type="button" id="buttonNormalise" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600">Normalise current inputs</button>
+
+                <div class="info-wrapper" onclick="toggleTooltip(event)">
+                    <i class="fas fa-info-circle text-xl ml-2"></i>
+                    <span class="tooltip" style="display:none;">Browser allows the sound to be reduced up to 55db in each frequency,
+                        this button should be pressed if you entered the hearing test results
+                        that have bigger hearing loss than 55db. At 55db loss in simulator
+                        there is no sound played due to hardware and software limitations</span>
+                </div>
+            </div>
+
+        </form>
+        <p></p>
+
+        <div align="center">
+            <!-- results diagram-->
+            <div id="theGrid">
+                <div id="audiogramGrid">
+                    <img id="audiogramBgImage" src="partials/HLsimAudiogram.png" width="450px" height="450px"/>
+                    <div id="overL125" class="overlay-dot"></div>
+                    <div id="overL250" class="overlay-dot"></div>
+                    <div id="overL500" class="overlay-dot"></div>
+                    <div id="overL1000" class="overlay-dot"></div>
+                    <div id="overL1500" class="overlay-dot"></div>
+                    <div id="overL2000" class="overlay-dot"></div>
+                    <div id="overL3000" class="overlay-dot"></div>
+                    <div id="overL4000" class="overlay-dot"></div>
+                    <div id="overL6000" class="overlay-dot"></div>
+                    <div id="overL8000" class="overlay-dot"></div>
+                    <div id="overR125" class="overlay-dot"></div>
+                    <div id="overR250" class="overlay-dot"></div>
+                    <div id="overR500" class="overlay-dot"></div>
+                    <div id="overR1000" class="overlay-dot"></div>
+                    <div id="overR1500" class="overlay-dot"></div>
+                    <div id="overR2000" class="overlay-dot"></div>
+                    <div id="overR3000" class="overlay-dot"></div>
+                    <div id="overR4000" class="overlay-dot"></div>
+                    <div id="overR6000" class="overlay-dot"></div>
+                    <div id="overR8000" class="overlay-dot"></div>
+                    <div id="overA125" class="overlay-dot"></div>
+                    <div id="overA250" class="overlay-dot"></div>
+                    <div id="overA500" class="overlay-dot"></div>
+                    <div id="overA1000" class="overlay-dot"></div>
+                    <div id="overA1500" class="overlay-dot"></div>
+                    <div id="overA2000" class="overlay-dot"></div>
+                    <div id="overA3000" class="overlay-dot"></div>
+                    <div id="overA4000" class="overlay-dot"></div>
+                    <div id="overA6000" class="overlay-dot"></div>
+                    <div id="overA8000" class="overlay-dot"></div>
+                </div>
+                <div id="overlay"></div>
+            </div>
+            <!-- results diagram end-->
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/hearingLossGenerator.js?v1.0.04"></script>
+<script src="js/HLsim.js?v1.0.04"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
+
+<script>
+    const allHearingBands = [125, 250, 500, 1000, 1500, 2000, 3000, 4000, 6000, 8000];
+
+    $(function () {
+        $(".audiogram-db-inputs input").on('change', function () {
+            plotAllOnAudiogram();
+        });
+        plotAllOnAudiogram();
+    });
+
+    function plotAllOnAudiogram() {
+        $(".audiogram-db-inputs input").each(function () {
+            const $this = $(this);
+            if ($this.val() < 0 || $this.val() > 80) {
+                $this.val('');
+                alert('The value should be between 0 and 80.');
+            } else {
+                const $fieldId = $this.attr('id');
+
+                let top = "" + Math.round(68 + 3.4 * parseInt($this.val())) + "px";
+
+                // left ear input field changed
+                if ($fieldId.indexOf('inputEqLeft') == 0) {
+                    let frequency = parseInt($fieldId.replace('inputEqLeft', ''));
+
+                    let left = "" + Math.round((74 + 33 * allHearingBands.indexOf(frequency))) + "px";
+                    plotPointOnAudiogram('l', frequency, top, left);
+                } else {
+                    // right ear
+                    let frequency = parseInt($fieldId.replace('inputEqRight', ''));
+                    let left = "" + Math.round((74 + 33 * allHearingBands.indexOf(frequency))) + "px";
+                    plotPointOnAudiogram('r', frequency, top, left);
+                }
+
+            }
+
+            plotAvgsOnAudiogram();
+        });
+    }
+
+    function plotAvgsOnAudiogram() {
+        // also plot avg outputs on audiogram
+        $("#avg-outputs output").each(function () {
+            const $this = $(this);
+            const frequency = parseInt($this.attr('id').replace('outputAVG', ''));
+            let top = "" + Math.round(68 + 3.4 * parseInt($this.text())) + "px";
+            let left = "" + Math.round((76 + 33 * allHearingBands.indexOf(frequency))) + "px";
+            plotPointOnAudiogram('a', frequency, top, left);
+        });
+    }
+
+    function plotPointOnAudiogram(mode = 'l', frequncy, top, left) {
+        if (mode == 'l') {
+            // left ear dot
+            let sign = "x";
+            let color = "#00D";
+            document.getElementById('overL' + frequncy).innerHTML = sign;
+            document.getElementById('overL' + frequncy).style.top = top;
+            document.getElementById('overL' + frequncy).style.left = left;
+            document.getElementById('overL' + frequncy).style.color = color;
+        } else if (mode == 'r') {
+            // right ear dot
+            let sign = "o";
+            let color = "#D00";
+            document.getElementById('overR' + frequncy).innerHTML = sign;
+            document.getElementById('overR' + frequncy).style.top = top;
+            document.getElementById('overR' + frequncy).style.left = left;
+            document.getElementById('overR' + frequncy).style.color = color;
+        } else {
+            // avg dot
+            let sign = "+";
+            let color = "#371";
+            document.getElementById('overA' + frequncy).innerHTML = sign;
+            document.getElementById('overA' + frequncy).style.top = top;
+            document.getElementById('overA' + frequncy).style.left = left;
+            document.getElementById('overA' + frequncy).style.color = color;
+        }
+    }
+
+    // Function to toggle tooltip
+    function toggleTooltip(event) {
+        // Close all tooltips
+        document.querySelectorAll('.tooltip').forEach(function (tooltip) {
+            tooltip.style.display = 'none';
+        });
+
+        if (event.currentTarget.querySelector('.tooltip').style.display === 'block') {
+            event.currentTarget.querySelector('.tooltip').style.display = 'none';
+            event.stopPropagation();
+            return;
+        }
+
+        // Open the clicked tooltip
+        const tooltip = event.currentTarget.querySelector('.tooltip');
+        tooltip.style.display = 'block';
+
+        // Stop the event from propagating to the document
+        event.stopPropagation();
+    }
+</script>
 </body>
+
 </html>
